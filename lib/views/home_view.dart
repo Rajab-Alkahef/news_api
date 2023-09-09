@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_ui_setup/widgets/category_card.dart';
+import 'package:news_app_ui_setup/widgets/categories_list_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -12,7 +12,7 @@ class HomeView extends StatelessWidget {
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
-          title: Row(
+          title: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
@@ -28,21 +28,7 @@ class HomeView extends StatelessWidget {
             ],
           ),
         ),
-        body: SizedBox(
-          height: 110,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: CategortyCard(),
-                  );
-                }),
-          ),
-        ),
+        body: const CategoriesListView(),
       ),
     );
   }
