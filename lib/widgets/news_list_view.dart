@@ -59,17 +59,19 @@ class NewsListview extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        physics: BouncingScrollPhysics(),
-        itemCount: news.length,
-        itemBuilder: (context, index) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        childCount: news.length,
+        (context, index) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 22.0),
             child: NewsTile(
               news: news[index],
             ),
           );
-        });
+        },
+      ),
+    );
   }
 }
 // const CategoriesListView()
