@@ -31,32 +31,15 @@ class HomeView extends StatelessWidget {
         ),
         body: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.0),
-          child: CustomScrollView(
-            physics: BouncingScrollPhysics(),
-            slivers: [
-              SliverToBoxAdapter(
-                child: CategoriesListView(),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 32,
-                ),
-              ),
-              NewsListview(),
-            ],
-            // child: Column(
-            //   mainAxisSize: MainAxisSize.min,
-            //   children: [
-            //     CategoriesListView(),
-            //     SizedBox(
-            //       height: 32,
-            //     ),
-            //     Expanded(
-            //       child: NewsListview(),
-            //     ),
-            //   ],
-            // ),
-          ),
+          child: Column(children: [
+            CategoriesListView(),
+            SizedBox(
+              height: 32,
+            ),
+            Expanded(
+              child: NewsListview(),
+            ),
+          ]),
         ),
       ),
     );
