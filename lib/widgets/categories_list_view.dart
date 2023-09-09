@@ -40,20 +40,17 @@ class CategoriesListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 110,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: category.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: CategortyCard(
-                  category: category[index],
-                ),
-              );
-            }),
-      ),
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: category.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: CategortyCard(
+                category: category[index],
+              ),
+            );
+          }),
     );
   }
 }
