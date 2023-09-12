@@ -12,7 +12,7 @@ class NewsTile extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(6),
           child: Image.network(
-            news.image,
+            news.image!,
             height: 200,
             width: double.infinity,
             fit: BoxFit.cover,
@@ -35,7 +35,7 @@ class NewsTile extends StatelessWidget {
           height: 8,
         ),
         Text(
-          news.subtitle,
+          news.subtitle!,
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(

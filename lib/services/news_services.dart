@@ -1,20 +1,27 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:news_app_ui_setup/model/news_model.dart';
 
 class NewsService {
   final Dio dio;
 
-  NewsService({required this.dio});
+  NewsService(this.dio);
 
   void getGeneralNews() async {
-    final response = await dio.get(
-        'https://newsapi.org/v2/everything?q=bitcoin&apiKey=943f042ccfb14007b017520af9d3a8e1');
-    print(response);
-  }
+    Response response = await dio.get(
+        'https://newsapi.org/v2/top-headlines?apiKey=943f042ccfb14007b017520af9d3a8e1&country=eg&category=general');
+    Map<String, dynamic> jsonData = response.data;
+    List<dynamic> articles = jsonData['articles'];
 
-  void getSportsNews() async {
-    final response = await dio.get(
-        'https://newsapi.org/v2/everything?q=bitcoin&apiKey=943f042ccfb14007b017520af9d3a8e1');
-    print(response);
+    List<NewsModel> articleList = [];
+
+    for (var article in articles) {
+      NewsModel newsmodel = NewsModel(
+          image: article['urlToImage'],
+          title: article['title'],
+          subtitle: article['description']);
+
+      articleList.add(newsmodel);
+    }
+    print(articleList);
   }
 }
