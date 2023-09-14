@@ -1,28 +1,40 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_ui_setup/model/news_model.dart';
+import 'package:news_app_ui_setup/services/news_services.dart';
+
 import 'package:news_app_ui_setup/widgets/news_tile.dart';
 
-class NewsListview extends StatelessWidget {
+class NewsListview extends StatefulWidget {
   const NewsListview({
     super.key,
   });
+
+  @override
+  State<NewsListview> createState() => _NewsListviewState();
+}
+
+class _NewsListviewState extends State<NewsListview> {
+  List<NewsModel> articles = [];
+  @override
+  void initState() {
+    super.initState();
+    getGeneralNews();
+  }
+
+  Future<void> getGeneralNews() async {
+    articles = await NewsService(Dio()).getGeneralNews();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        childCount: 10,
+        childCount: articles.length,
         (context, index) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 22.0),
-            child: NewsTile(
-              news: NewsModel(
-                  image:
-                      'https://images.unsplash.com/photo-1613842683240-19b2880f1e9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80',
-                  title:
-                      'This is title This is title This is title This is title This is title This is title This is title This is title This is title This is title This is title This is title This is title This is title This is title This is title This is title This is title This is title This is title ',
-                  subtitle:
-                      'This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle This is subtitle '),
-            ),
+            child: NewsTile(news: articles[index]),
           );
         },
       ),

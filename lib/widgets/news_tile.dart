@@ -11,12 +11,14 @@ class NewsTile extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(6),
-          child: Image.network(
-            news.image!,
-            height: 200,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
+          child: news.image != null
+              ? Image.network(
+                  news.image!,
+                  height: 200,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                )
+              : const Text('image not found'),
         ),
         const SizedBox(
           height: 12,
@@ -35,7 +37,7 @@ class NewsTile extends StatelessWidget {
           height: 8,
         ),
         Text(
-          news.subtitle!,
+          news.subtitle ?? '',
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
