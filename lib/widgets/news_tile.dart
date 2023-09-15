@@ -14,6 +14,7 @@ class NewsTile extends StatelessWidget {
           child: news.image != null
               ? Image.network(
                   news.image!,
+                  scale: 1.0,
                   height: 200,
                   width: double.infinity,
                   fit: BoxFit.cover,
