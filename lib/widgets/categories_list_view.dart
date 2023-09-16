@@ -13,7 +13,7 @@ class CategoriesListView extends StatelessWidget {
     ),
     CategortyModel(
       image: 'assets/entertaiment.jpg',
-      categoryName: 'entertaiment',
+      categoryName: 'entertainment',
     ),
     CategortyModel(
       image: 'assets/general.jpg',
@@ -29,7 +29,7 @@ class CategoriesListView extends StatelessWidget {
     ),
     CategortyModel(
       image: 'assets/sport.jpg',
-      categoryName: 'sport',
+      categoryName: 'sports',
     ),
     CategortyModel(
       image: 'assets/technology.jpg',

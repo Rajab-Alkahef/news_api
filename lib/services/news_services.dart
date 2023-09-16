@@ -18,6 +18,7 @@ class NewsService {
 
       for (var article in articles) {
         NewsModel newsmodel = NewsModel(
+            url: article['url'],
             image: article['urlToImage'],
             title: article['title'],
             subtitle: article['description']);
@@ -26,7 +27,6 @@ class NewsService {
       }
       return articleList;
     } catch (e) {
-      print(e);
       return [];
     }
   }
