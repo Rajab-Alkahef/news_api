@@ -6,8 +6,9 @@ import 'package:news_app_ui_setup/widgets/news_list_view.dart';
 import '../services/news_services.dart';
 
 class NewsListViewBuilder extends StatefulWidget {
-  const NewsListViewBuilder({super.key, required this.category});
-  final String category;
+  const NewsListViewBuilder({super.key, this.category, this.searchValue});
+  final String? category;
+  final String? searchValue;
   @override
   State<NewsListViewBuilder> createState() => _NewsListViewBuilderState();
 }
@@ -16,8 +17,14 @@ class _NewsListViewBuilderState extends State<NewsListViewBuilder> {
   var future;
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    future = NewsService(Dio()).getTopHeadlinesNews(category: widget.category);
+    if (widget.category != null) {
+      future = NewsService(Dio()).getnews(categoryName: widget.category);
+    } else {
+      future = NewsService(Dio()).getnews(searchValue: widget.searchValue);
+    }
+    setState(() {});
   }
 
   @override
