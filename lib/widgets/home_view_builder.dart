@@ -14,14 +14,21 @@ class HomeViewBuilder extends StatefulWidget {
   State<HomeViewBuilder> createState() => _HomeViewBuilderState();
 }
 
+Future<void> _refresh() {
+  return Future.delayed(const Duration(seconds: 3), () {
+    const NewsListViewBuilder(
+      category: 'general',
+    );
+  });
+}
+
 class _HomeViewBuilderState extends State<HomeViewBuilder> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       color: Colors.orange,
       onRefresh: () async {
-        Future.delayed(const Duration(seconds: 3));
-        print('refreshed');
+        await Future.delayed(const Duration(seconds: 1));
         const NewsListViewBuilder(
           category: 'general',
         );

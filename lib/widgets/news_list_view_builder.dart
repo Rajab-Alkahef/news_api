@@ -24,6 +24,7 @@ class _NewsListViewBuilderState extends State<NewsListViewBuilder> {
     } else {
       future = NewsService(Dio()).getnews(searchValue: widget.searchValue);
     }
+
     setState(() {});
   }
 
@@ -33,6 +34,8 @@ class _NewsListViewBuilderState extends State<NewsListViewBuilder> {
       future: future,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          print('refreshed');
+
           return NewsListview(
             articles: snapshot.data!,
           );

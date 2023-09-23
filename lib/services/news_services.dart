@@ -29,26 +29,28 @@ class NewsService {
 
   Future<List<NewsModel>> getnews(
       {String? categoryName, String? searchValue}) async {
-    List<dynamic> articles;
-    if (categoryName != null) {
-      Map<String, dynamic> jsonData =
-          await getNewsResponse(categoryName: categoryName);
-      articles = jsonData['articles'];
-    } else {
-      Map<String, dynamic> jsonData =
-          await getSearchNewsResponse(searchValue: searchValue!);
-      articles = jsonData['articles'];
-    }
+    return await Future.delayed(const Duration(seconds: 3), () async {
+      List<dynamic> articles;
+      if (categoryName != null) {
+        Map<String, dynamic> jsonData =
+            await getNewsResponse(categoryName: categoryName);
+        articles = jsonData['articles'];
+      } else {
+        Map<String, dynamic> jsonData =
+            await getSearchNewsResponse(searchValue: searchValue!);
+        articles = jsonData['articles'];
+      }
 
-    List<NewsModel> articleList = [];
-    for (var article in articles) {
-      NewsModel newsModel = NewsModel(
-          image: article['urlToImage'],
-          title: article['title'],
-          subtitle: article['description'],
-          url: article['url']);
-      articleList.add(newsModel);
-    }
-    return articleList;
+      List<NewsModel> articleList = [];
+      for (var article in articles) {
+        NewsModel newsModel = NewsModel(
+            image: article['urlToImage'],
+            title: article['title'],
+            subtitle: article['description'],
+            url: article['url']);
+        articleList.add(newsModel);
+      }
+      return articleList;
+    });
   }
 }
