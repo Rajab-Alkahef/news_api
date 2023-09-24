@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_ui_setup/model/news_model.dart';
 import 'package:news_app_ui_setup/widgets/news_list_view.dart';
+import 'package:news_app_ui_setup/widgets/shimmer_loading.dart';
 
 import '../services/news_services.dart';
 
@@ -43,7 +44,7 @@ class _NewsListViewBuilderState extends State<NewsListViewBuilder> {
         } else {
           return const SliverFillRemaining(
             hasScrollBody: false,
-            child: Center(child: CircularProgressIndicator()),
+            child: ShimmerLoading(),
           );
         }
       },
