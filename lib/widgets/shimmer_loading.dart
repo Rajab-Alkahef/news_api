@@ -42,12 +42,12 @@ class ShimmerLoadingColumn extends StatelessWidget {
         Container(
           width: double.infinity,
           height: 200.0,
-          margin: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.0),
             color: Colors.white,
           ),
         ),
+        const SizedBox(height: 16.0),
         Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,6 +61,12 @@ class ShimmerLoadingColumn extends StatelessWidget {
             Container(
               width: double.infinity,
               height: 12.0,
+              color: Colors.white,
+            ),
+            const SizedBox(height: 8.0),
+            Container(
+              width: double.infinity,
+              height: 8.0,
               color: Colors.white,
             ),
           ],
