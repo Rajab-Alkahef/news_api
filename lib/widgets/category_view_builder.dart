@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_ui_setup/widgets/categories_list_view.dart';
+import 'package:news_app_ui_setup/views/category_view.dart';
 import 'package:news_app_ui_setup/widgets/news_list_view_builder.dart';
 import 'package:news_app_ui_setup/widgets/search_bar.dart';
 
-class HomeViewBuilder extends StatelessWidget {
-  const HomeViewBuilder({
+class CategoryViewBuilder extends StatelessWidget {
+  const CategoryViewBuilder({
     super.key,
+    required this.category,
     required this.isSearching,
     required this.isRefreshing,
   });
+
+  final CategortyView category;
   final bool isSearching;
   final bool isRefreshing;
 
@@ -23,20 +26,15 @@ class HomeViewBuilder extends StatelessWidget {
               )
             : const SliverToBoxAdapter(
                 child: SizedBox(
-                height: 1,
-              )),
-        const SliverToBoxAdapter(child: CategoriesListView()),
-        const SliverToBoxAdapter(
-          child: SizedBox(
-            height: 32,
-          ),
-        ),
+                  height: 1,
+                ),
+              ),
         isRefreshing == true
             ? const SliverFillRemaining(
                 hasScrollBody: false,
                 child: Center(child: CircularProgressIndicator()))
-            : const NewsListViewBuilder(
-                category: 'general',
+            : NewsListViewBuilder(
+                category: category.category,
               ),
       ],
     );

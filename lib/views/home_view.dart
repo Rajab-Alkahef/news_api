@@ -8,6 +8,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isSearching = false;
+    bool isRefreshing = false;
 
     return StatefulBuilder(
       builder: (context, setState) => Scaffold(
@@ -20,7 +21,7 @@ class HomeView extends StatelessWidget {
               ),
               onPressed: () {
                 isSearching = !isSearching;
-                print("isSearching = $isSearching");
+
                 setState(() {});
               },
             )
@@ -47,9 +48,25 @@ class HomeView extends StatelessWidget {
             ),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: HomeViewBuilder(isSearching: isSearching),
+        body: RefreshIndicator(
+          color: Colors.orange,
+          onRefresh: () async {
+            setState(() {
+              isRefreshing = true;
+            });
+            await Future.delayed(const Duration(seconds: 1));
+            setState(() {
+              isRefreshing = false;
+              isSearching = false;
+            });
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: HomeViewBuilder(
+              isSearching: isSearching,
+              isRefreshing: isRefreshing,
+            ),
+          ),
         ),
       ),
     );

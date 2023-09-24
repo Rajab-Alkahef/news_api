@@ -14,10 +14,9 @@ class NewsListViewBuilder extends StatefulWidget {
 }
 
 class _NewsListViewBuilderState extends State<NewsListViewBuilder> {
-  var future;
+  dynamic future;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.category != null) {
       future = NewsService(Dio()).getnews(categoryName: widget.category);
@@ -34,8 +33,6 @@ class _NewsListViewBuilderState extends State<NewsListViewBuilder> {
       future: future,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          print('refreshed');
-
           return NewsListview(
             articles: snapshot.data!,
           );

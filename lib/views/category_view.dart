@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_ui_setup/widgets/news_list_view_builder.dart';
-import 'package:news_app_ui_setup/widgets/search_bar.dart';
+import 'package:news_app_ui_setup/widgets/category_view_builder.dart';
 
 class CategortyView extends StatefulWidget {
   const CategortyView({super.key, required this.category});
@@ -14,6 +13,7 @@ class _CategortyViewState extends State<CategortyView> {
   @override
   Widget build(BuildContext context) {
     bool isSearching = false;
+    bool isRefreshing = false;
     return StatefulBuilder(
       builder: (context, setState) => Scaffold(
         appBar: AppBar(
@@ -28,23 +28,11 @@ class _CategortyViewState extends State<CategortyView> {
           ),
           backgroundColor: Colors.white,
           elevation: 0,
-          centerTitle: true,
-          title: const Padding(
-            padding: EdgeInsets.only(right: 48.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "News",
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                  ),
-                ),
-                Text(
-                  "Cloud",
-                  style: TextStyle(color: Colors.orange),
-                ),
-              ],
+          // centerTitle: true,
+          title: Text(
+            widget.category,
+            style: const TextStyle(
+              color: Color(0xff000000),
             ),
           ),
           actions: [
@@ -55,7 +43,7 @@ class _CategortyViewState extends State<CategortyView> {
               ),
               onPressed: () {
                 isSearching = !isSearching;
-                print("isSearching = $isSearching");
+
                 setState(() {});
               },
             )
@@ -64,57 +52,25 @@ class _CategortyViewState extends State<CategortyView> {
         body: RefreshIndicator(
           color: Colors.orange,
           onRefresh: () async {
+            setState(() {
+              isRefreshing = true;
+            });
             await Future.delayed(const Duration(seconds: 1));
-
-            NewsListViewBuilder(
-              category: widget.category,
-            );
-            setState(() {});
+            setState(() {
+              isRefreshing = false;
+              isSearching = false;
+            });
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child:
-                CategoryViewBuilder(isSearching: isSearching, category: widget),
+            child: CategoryViewBuilder(
+              isSearching: isSearching,
+              category: widget,
+              isRefreshing: isRefreshing,
+            ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class CategoryViewBuilder extends StatefulWidget {
-  const CategoryViewBuilder({
-    super.key,
-    required this.category,
-    required this.isSearching,
-  });
-
-  final CategortyView category;
-  final bool isSearching;
-
-  @override
-  State<CategoryViewBuilder> createState() => _CategoryViewBuilderState();
-}
-
-class _CategoryViewBuilderState extends State<CategoryViewBuilder> {
-  @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        widget.isSearching == true
-            ? const SliverToBoxAdapter(
-                child: CustomSearchBar(),
-              )
-            : const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 1,
-                ),
-              ),
-        NewsListViewBuilder(
-          category: widget.category.category,
-        ),
-      ],
     );
   }
 }

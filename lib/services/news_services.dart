@@ -29,7 +29,7 @@ class NewsService {
 
   Future<List<NewsModel>> getnews(
       {String? categoryName, String? searchValue}) async {
-    return await Future.delayed(const Duration(seconds: 3), () async {
+    return await Future.delayed(const Duration(seconds: 1), () async {
       List<dynamic> articles;
       if (categoryName != null) {
         Map<String, dynamic> jsonData =
