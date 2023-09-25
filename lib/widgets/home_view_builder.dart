@@ -15,30 +15,130 @@ class HomeViewBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        isSearching == true
-            ? const SliverToBoxAdapter(
-                child: CustomSearchBar(),
-              )
-            : const SliverToBoxAdapter(
-                child: SizedBox(
-                height: 1,
-              )),
-        const SliverToBoxAdapter(child: CategoriesListView()),
-        const SliverToBoxAdapter(
-          child: SizedBox(
-            height: 32,
-          ),
+    return Stack(
+      children: [
+        CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            const SliverToBoxAdapter(child: CategoriesListView()),
+            const SliverToBoxAdapter(
+              child: SizedBox(
+                height: 32,
+              ),
+            ),
+            isRefreshing == true
+                ? const SliverFillRemaining(
+                    hasScrollBody: false, child: ShimmerLoading())
+                : const NewsListViewBuilder(
+                    category: 'general',
+                  ),
+          ],
         ),
-        isRefreshing == true
-            ? const SliverFillRemaining(
-                hasScrollBody: false, child: ShimmerLoading())
-            : const NewsListViewBuilder(
-                category: 'general',
+        isSearching == true
+            ? const Positioned(
+                left: 0, right: 0, top: 15, child: CustomSearchBar())
+            : const SizedBox(
+                height: 1,
               ),
       ],
     );
   }
 }
+
+// class HomeViewBuilder extends StatelessWidget {
+//   const HomeViewBuilder({
+//     super.key,
+//     required this.isSearching,
+//     required this.isRefreshing,
+//   });
+//   final bool isSearching;
+//   final bool isRefreshing;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: [
+//         CustomScrollView(
+//           physics: const BouncingScrollPhysics(),
+//           slivers: [
+//             SliverToBoxAdapter(
+//               child: AnimatedPositioned(
+//                 duration: const Duration(
+//                     milliseconds: 500), // Adjust the duration as needed
+//                 top: isSearching ? 150 : 0,
+//                 child: Column(
+//                   children: [
+//                     const CategoriesListView(),
+//                     const SizedBox(
+//                       height: 32,
+//                     ),
+//                     isRefreshing == true
+//                         ? const ShimmerLoading()
+//                         : const NewsListViewBuilder(
+//                             category: 'general',
+//                           ),
+//                   ],
+//                 ),
+//               ),
+//             )
+//           ],
+//         ),
+//         Positioned(
+//           top: 0,
+//           left: 0,
+//           right: 0,
+//           child: isSearching ? const CustomSearchBar() : const SizedBox(),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+// class SearchAndAnimationScreen extends StatefulWidget {
+//   const SearchAndAnimationScreen({super.key});
+
+//   @override
+//   _SearchAndAnimationScreenState createState() =>
+//       _SearchAndAnimationScreenState();
+// }
+
+// class _SearchAndAnimationScreenState extends State<SearchAndAnimationScreen> {
+//   bool isSearching = false;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: [
+//         CustomScrollView(
+//           physics: const BouncingScrollPhysics(),
+//           slivers: [
+//             SliverToBoxAdapter(
+//               child: AnimatedPositioned(
+//                 duration: const Duration(
+//                     milliseconds: 500), // Adjust the duration as needed
+//                 top: isSearching ? 150 : 0, // Move the column up when searching
+//                 child: Column(
+//                   children: [
+//                     const CategoriesListView(),
+//                     const SizedBox(height: 32),
+//                     isSearching
+//                         ? const ShimmerLoading()
+//                         : const NewsListViewBuilder(category: 'general'),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//         Positioned(
+//           top: 0,
+//           left: 0,
+//           right: 0,
+//           child: isSearching
+//               ? const CustomSearchBar()
+//               : const SizedBox(), // Show/hide search bar
+//         ),
+//       ],
+//     );
+//   }
+// }
