@@ -87,14 +87,15 @@ import 'package:news_app_ui_setup/views/search_view.dart';
 
 //Animated Search bar
 class CustomSearchBar extends StatefulWidget {
-  const CustomSearchBar({super.key});
-
+  const CustomSearchBar({super.key, required this.searching});
+  final bool searching;
   @override
   _CustomSearchBarState createState() => _CustomSearchBarState();
 }
 
 class _CustomSearchBarState extends State<CustomSearchBar>
     with TickerProviderStateMixin {
+  bool visible = false;
   String? searchValue;
   NewsService? newsService;
   List<NewsModel>? data;
@@ -102,11 +103,14 @@ class _CustomSearchBarState extends State<CustomSearchBar>
   Animation<Offset>? _slideAnimation;
   AnimationController? _opacityController;
   Animation<double>? _opacityAnimation;
-  Color color = Colors.black;
+  Color color = Colors.black.withOpacity(0.3);
+  Color tcolor = Colors.transparent;
 
   @override
   void initState() {
     super.initState();
+
+    visible = widget.searching;
 
     _slideController = AnimationController(
       vsync: this,
@@ -137,7 +141,21 @@ class _CustomSearchBarState extends State<CustomSearchBar>
     ));
 
     // Start both animations when the widget is first built
-    _startAnimations();
+
+    setState(() {
+      _startAnimations();
+    });
+  }
+
+  Future<void> _endAnimations() async {
+    // Delay the start of the animations (if needed)
+    await Future.delayed(const Duration(milliseconds: 0));
+
+    // Start the slide-in animation
+    _slideController?.reverse();
+
+    // Start the opacity transition
+    _opacityController?.reverse();
   }
 
   Future<void> _startAnimations() async {
@@ -161,9 +179,10 @@ class _CustomSearchBarState extends State<CustomSearchBar>
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-              decoration: const BoxDecoration(
-                boxShadow: [
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+              decoration: BoxDecoration(
+                border: Border.all(color: tcolor, width: 1.5),
+                boxShadow: const [
                   BoxShadow(
                     offset: Offset(1.8, 3.3),
                     color: Colors.black38,
@@ -171,7 +190,7 @@ class _CustomSearchBarState extends State<CustomSearchBar>
                     spreadRadius: 0.1,
                   ),
                 ],
-                borderRadius: BorderRadius.all(Radius.circular(14)),
+                borderRadius: const BorderRadius.all(Radius.circular(14)),
                 color: Colors.white,
               ),
               width: MediaQuery.of(context).size.width,
@@ -191,12 +210,18 @@ class _CustomSearchBarState extends State<CustomSearchBar>
                       ),
                     );
                   } else {
+                    tcolor = Colors.red.withOpacity(0.5);
                     color = Colors.red;
                     setState(() {});
                     print('field is required');
                   }
                 },
+                onTap: () {
+                  tcolor = Colors.blue.withOpacity(0.5);
+                  setState(() {});
+                },
                 onChanged: (value) {
+                  tcolor = Colors.blue.withOpacity(0.5);
                   color = Colors.black;
                   setState(() {});
                   searchValue = value;
@@ -215,6 +240,7 @@ class _CustomSearchBarState extends State<CustomSearchBar>
                           ),
                         );
                       } else {
+                        tcolor = Colors.red.withOpacity(0.5);
                         color = Colors.red;
                         setState(() {});
                         print('object');

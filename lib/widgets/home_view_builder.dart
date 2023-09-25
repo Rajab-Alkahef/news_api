@@ -30,13 +30,18 @@ class HomeViewBuilder extends StatelessWidget {
                 ? const SliverFillRemaining(
                     hasScrollBody: false, child: ShimmerLoading())
                 : const NewsListViewBuilder(
-                    category: 'general',
+                    category: 'Top',
                   ),
           ],
         ),
         isSearching == true
-            ? const Positioned(
-                left: 0, right: 0, top: 15, child: CustomSearchBar())
+            ? Positioned(
+                left: 0,
+                right: 0,
+                top: 15,
+                child: CustomSearchBar(
+                  searching: isSearching,
+                ))
             : const SizedBox(
                 height: 1,
               ),

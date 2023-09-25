@@ -22,8 +22,8 @@ class CategoryViewBuilder extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       slivers: [
         isSearching == true
-            ? const SliverToBoxAdapter(
-                child: CustomSearchBar(),
+            ? SliverToBoxAdapter(
+                child: CustomSearchBar(searching: isSearching),
               )
             : const SliverToBoxAdapter(
                 child: SizedBox(

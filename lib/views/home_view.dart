@@ -20,9 +20,9 @@ class HomeView extends StatelessWidget {
                 color: Colors.grey,
               ),
               onPressed: () {
-                isSearching = !isSearching;
-
-                setState(() {});
+                setState(() {
+                  isSearching = !isSearching;
+                });
               },
             )
           ],

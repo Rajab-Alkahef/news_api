@@ -13,27 +13,27 @@ class CategoriesListView extends StatelessWidget {
     ),
     CategortyModel(
       image: 'assets/entertainment11.jpg',
-      categoryName: 'entertainment',
+      categoryName: 'Entertainment',
     ),
     CategortyModel(
       image: 'assets/general.jpg',
-      categoryName: 'general',
+      categoryName: 'Top',
     ),
     CategortyModel(
       image: '؛assets/health.jpg',
-      categoryName: 'health',
+      categoryName: 'Health',
     ),
     CategortyModel(
       image: 'assets/science1.jpg',
-      categoryName: 'science',
+      categoryName: 'Science',
     ),
     CategortyModel(
       image: 'assets/sport.jpg',
-      categoryName: 'sports',
+      categoryName: 'Sports',
     ),
     CategortyModel(
       image: 'assets/technology.jpg',
-      categoryName: 'technology',
+      categoryName: 'Technology',
     ),
   ];
   @override
