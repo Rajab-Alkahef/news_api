@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_ui_setup/views/search_view.dart';
+import 'package:news_app_ui_setup/widgets/custom_pop_menu_item.dart';
 
 class CustomSearchbar extends StatefulWidget {
   const CustomSearchbar({super.key});
@@ -9,12 +10,11 @@ class CustomSearchbar extends StatefulWidget {
 }
 
 class _CustomSearchbarState extends State<CustomSearchbar> {
-  String? searchValue;
+  String searchValue = '';
   Color color = Colors.black.withOpacity(0.3);
   Color tcolor = Colors.transparent;
   Color filterColor = Colors.grey;
   String filterValue = '';
-  bool selected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,27 +41,9 @@ class _CustomSearchbarState extends State<CustomSearchbar> {
           onTapOutside: (event) {
             FocusScope.of(context).unfocus();
           },
-          onSubmitted: (value) {
-            if (value != '') {
-              print("search filter ====== $filterValue");
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return SearchResultView(
-                      searchValue: value,
-                      filterValue: filterValue.isEmpty ? "T" : filterValue,
-                    );
-                  },
-                ),
-              );
-            } else {
-              tcolor = Colors.red.withOpacity(0.5);
-              color = Colors.red;
-              setState(() {});
-              print('field is required');
-            }
-          },
+          onSubmitted: ((value) {
+            onSubm(value);
+          }),
           onTap: () {
             tcolor = Colors.blue.withOpacity(0.5);
             setState(() {});
@@ -79,117 +61,14 @@ class _CustomSearchbarState extends State<CustomSearchbar> {
                 IconButton(
                   padding: const EdgeInsets.only(bottom: 3),
                   onPressed: () {
-                    if (searchValue != null) {
-                      print("search filter ====== $filterValue");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return SearchResultView(
-                                filterValue:
-                                    filterValue.isEmpty ? "T" : filterValue,
-                                searchValue: searchValue);
-                          },
-                        ),
-                      );
-                    } else {
-                      tcolor = Colors.red.withOpacity(0.5);
-                      color = Colors.red;
-                      setState(() {});
-                    }
+                    onSubm(searchValue);
                   },
                   icon: Icon(
                     Icons.search,
                     color: color,
                   ),
                 ),
-                PopupMenuButton(
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      value: 'Top',
-                      child: CustomPopItem(
-                        filterColor: filterValue.contains('Top')
-                            ? Colors.orange
-                            : Colors.grey,
-                        itemIcon: Icons.trending_up,
-                        itemName: "Top",
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Business",
-                      child: CustomPopItem(
-                        filterColor: filterValue.contains('Business')
-                            ? Colors.orange
-                            : Colors.grey,
-                        itemIcon: Icons.business_center,
-                        itemName: "Business",
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Sports",
-                      child: CustomPopItem(
-                        filterColor: filterValue.contains('Sports')
-                            ? Colors.orange
-                            : Colors.grey,
-                        itemIcon: Icons.sports_soccer,
-                        itemName: "Sports",
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Entertainment",
-                      child: CustomPopItem(
-                        filterColor: filterValue.contains('Entertainment')
-                            ? Colors.orange
-                            : Colors.grey,
-                        itemIcon: Icons.live_tv,
-                        itemName: "Entertainment",
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Health",
-                      child: CustomPopItem(
-                        filterColor: filterValue.contains('Health')
-                            ? Colors.orange
-                            : Colors.grey,
-                        itemIcon: Icons.health_and_safety,
-                        itemName: "Health",
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Science",
-                      child: CustomPopItem(
-                        filterColor: filterValue.contains('Science')
-                            ? Colors.orange
-                            : Colors.grey,
-                        itemIcon: Icons.science,
-                        itemName: "Science",
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Technology",
-                      child: CustomPopItem(
-                        filterColor: filterValue.contains('Technology')
-                            ? Colors.orange
-                            : Colors.grey,
-                        itemIcon: Icons.phone_android,
-                        itemName: "Technology",
-                      ),
-                    ),
-                  ],
-                  onSelected: (valueSelected) {
-                    setState(() {
-                      // filterColor = Colors.orange;
-                      filterValue = valueSelected;
-                    });
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Icon(
-                      Icons.filter_list,
-                      color: color,
-                    ),
-                  ),
-                )
+                filterPopMenu()
               ],
             ),
             border: InputBorder.none,
@@ -203,33 +82,113 @@ class _CustomSearchbarState extends State<CustomSearchbar> {
       ),
     );
   }
-}
 
-class CustomPopItem extends StatelessWidget {
-  const CustomPopItem({
-    super.key,
-    required this.itemName,
-    required this.itemIcon,
-    required this.filterColor,
-  });
-  final String itemName;
-  final IconData itemIcon;
-  final Color filterColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(itemIcon, color: filterColor),
-        const SizedBox(
-          width: 12,
+//function code of filter icon with drop down
+  PopupMenuButton<String> filterPopMenu() {
+    return PopupMenuButton(
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: 'Top',
+          child: CustomPopMenuItem(
+            filterColor:
+                filterValue.contains('Top') ? Colors.orange : Colors.grey,
+            itemIcon: Icons.trending_up,
+            itemName: "Top",
+          ),
         ),
-        Text(
-          itemName,
-          style: TextStyle(color: filterColor),
+        PopupMenuItem(
+          value: "Business",
+          child: CustomPopMenuItem(
+            filterColor:
+                filterValue.contains('Business') ? Colors.orange : Colors.grey,
+            itemIcon: Icons.business_center,
+            itemName: "Business",
+          ),
+        ),
+        PopupMenuItem(
+          value: "Sports",
+          child: CustomPopMenuItem(
+            filterColor:
+                filterValue.contains('Sports') ? Colors.orange : Colors.grey,
+            itemIcon: Icons.sports_soccer,
+            itemName: "Sports",
+          ),
+        ),
+        PopupMenuItem(
+          value: "Entertainment",
+          child: CustomPopMenuItem(
+            filterColor: filterValue.contains('Entertainment')
+                ? Colors.orange
+                : Colors.grey,
+            itemIcon: Icons.live_tv,
+            itemName: "Entertainment",
+          ),
+        ),
+        PopupMenuItem(
+          value: "Health",
+          child: CustomPopMenuItem(
+            filterColor:
+                filterValue.contains('Health') ? Colors.orange : Colors.grey,
+            itemIcon: Icons.health_and_safety,
+            itemName: "Health",
+          ),
+        ),
+        PopupMenuItem(
+          value: "Science",
+          child: CustomPopMenuItem(
+            filterColor:
+                filterValue.contains('Science') ? Colors.orange : Colors.grey,
+            itemIcon: Icons.science,
+            itemName: "Science",
+          ),
+        ),
+        PopupMenuItem(
+          value: "Technology",
+          child: CustomPopMenuItem(
+            filterColor: filterValue.contains('Technology')
+                ? Colors.orange
+                : Colors.grey,
+            itemIcon: Icons.phone_android,
+            itemName: "Technology",
+          ),
         ),
       ],
+      onSelected: (valueSelected) {
+        setState(() {
+          // filterColor = Colors.orange;
+          filterValue = valueSelected;
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+        child: Icon(
+          Icons.filter_list,
+          color: color,
+        ),
+      ),
     );
+  }
+
+//functoin check if text field null or do search
+  void onSubm(String value) {
+    if (value.isEmpty) {
+      tcolor = Colors.red.withOpacity(0.5);
+      color = Colors.red;
+      setState(() {});
+      print('field is required');
+    } else {
+      print("search filter ====== $filterValue");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return SearchResultView(
+              searchValue: value,
+              filterValue: filterValue.isEmpty ? "T" : filterValue,
+            );
+          },
+        ),
+      );
+    }
   }
 }

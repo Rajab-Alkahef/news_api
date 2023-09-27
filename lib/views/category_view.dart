@@ -42,7 +42,7 @@ class _CategortyViewState extends State<CategortyView> {
                 color: Colors.grey,
               ),
               onPressed: () {
-                isSearching = !isSearching;
+                isSearching = true;
 
                 setState(() {});
               },

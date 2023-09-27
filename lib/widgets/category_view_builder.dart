@@ -4,8 +4,9 @@ import 'package:news_app_ui_setup/widgets/news_list_view_builder.dart';
 import 'package:news_app_ui_setup/widgets/animated_search_bar.dart';
 import 'package:news_app_ui_setup/widgets/shimmer_loading.dart';
 
-class CategoryViewBuilder extends StatelessWidget {
-  const CategoryViewBuilder({
+// ignore: must_be_immutable
+class CategoryViewBuilder extends StatefulWidget {
+  CategoryViewBuilder({
     super.key,
     required this.category,
     required this.isSearching,
@@ -13,29 +14,44 @@ class CategoryViewBuilder extends StatelessWidget {
   });
 
   final CategortyView category;
-  final bool isSearching;
+  bool isSearching;
   final bool isRefreshing;
 
   @override
+  State<CategoryViewBuilder> createState() => _CategoryViewBuilderState();
+}
+
+class _CategoryViewBuilderState extends State<CategoryViewBuilder> {
+  bool isDrag = false;
+  @override
   Widget build(BuildContext context) {
     return Stack(children: [
-      CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          isRefreshing == true
-              ? const SliverFillRemaining(
-                  hasScrollBody: false, child: ShimmerLoading())
-              : NewsListViewBuilder(
-                  category: category.category,
-                ),
-        ],
+      GestureDetector(
+        onVerticalDragDown: (details) {
+          // isDrag = false;
+          // print(isDrag);
+          widget.isSearching = isDrag;
+          print(widget.isSearching);
+          setState(() {});
+        },
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            widget.isRefreshing == true
+                ? const SliverFillRemaining(
+                    hasScrollBody: false, child: ShimmerLoading())
+                : NewsListViewBuilder(
+                    category: widget.category.category,
+                  ),
+          ],
+        ),
       ),
-      isSearching == true
+      widget.isSearching == true
           ? Positioned(
               left: 0,
               right: 0,
               top: 15,
-              child: AnimatedSearchBar(searching: isSearching))
+              child: AnimatedSearchBar(searching: widget.isSearching))
           : const SizedBox(
               height: 1,
             ),

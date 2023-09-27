@@ -4,43 +4,60 @@ import 'package:news_app_ui_setup/widgets/news_list_view_builder.dart';
 import 'package:news_app_ui_setup/widgets/animated_search_bar.dart';
 import 'package:news_app_ui_setup/widgets/shimmer_loading.dart';
 
-class HomeViewBuilder extends StatelessWidget {
-  const HomeViewBuilder({
+// ignore: must_be_immutable
+class HomeViewBuilder extends StatefulWidget {
+  HomeViewBuilder({
     super.key,
     required this.isSearching,
     required this.isRefreshing,
   });
-  final bool isSearching;
+  bool isSearching;
   final bool isRefreshing;
+
+  @override
+  State<HomeViewBuilder> createState() => _HomeViewBuilderState();
+}
+
+class _HomeViewBuilderState extends State<HomeViewBuilder> {
+  bool isDrag = false;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            const SliverToBoxAdapter(child: CategoriesListView()),
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 32,
+        GestureDetector(
+          onVerticalDragDown: (details) {
+            // isDrag = false;
+            // print(isDrag);
+            widget.isSearching = isDrag;
+            print(widget.isSearching);
+            setState(() {});
+          },
+          child: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              const SliverToBoxAdapter(child: CategoriesListView()),
+              const SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 32,
+                ),
               ),
-            ),
-            isRefreshing == true
-                ? const SliverFillRemaining(
-                    hasScrollBody: false, child: ShimmerLoading())
-                : const NewsListViewBuilder(
-                    category: 'Top',
-                  ),
-          ],
+              widget.isRefreshing == true
+                  ? const SliverFillRemaining(
+                      hasScrollBody: false, child: ShimmerLoading())
+                  : const NewsListViewBuilder(
+                      category: 'Top',
+                    ),
+            ],
+          ),
         ),
-        isSearching == true
+        widget.isSearching == true
             ? Positioned(
                 left: 0,
                 right: 0,
                 top: 15,
                 child: AnimatedSearchBar(
-                  searching: isSearching,
+                  searching: widget.isSearching,
                 ))
             : const SizedBox(
                 height: 1,

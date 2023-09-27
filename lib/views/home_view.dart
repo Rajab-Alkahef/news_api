@@ -21,7 +21,7 @@ class HomeView extends StatelessWidget {
               ),
               onPressed: () {
                 setState(() {
-                  isSearching = !isSearching;
+                  isSearching = true;
                 });
               },
             )
