@@ -41,8 +41,13 @@ class _NewsListViewBuilderState extends State<NewsListViewBuilder> {
             articles: snapshot.data!,
           );
         } else if (snapshot.hasError) {
-          return const SliverToBoxAdapter(
-            child: Text("There is an error, try again later"),
+          return const SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(
+                child: Text(
+              "There is an error, try again later",
+              style: TextStyle(fontSize: 20),
+            )),
           );
         } else {
           return const SliverFillRemaining(

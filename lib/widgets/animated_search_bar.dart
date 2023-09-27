@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:news_app_ui_setup/model/news_model.dart';
-import 'package:news_app_ui_setup/services/news_services.dart';
 import 'package:news_app_ui_setup/widgets/custom_search_bar.dart';
 
 //Animated Search bar
@@ -16,8 +14,7 @@ class AnimatedSearchBar extends StatefulWidget {
 class _AnimatedSearchBarState extends State<AnimatedSearchBar>
     with TickerProviderStateMixin {
   String? searchValue;
-  NewsService? newsService;
-  List<NewsModel>? data;
+
   AnimationController? _slideController;
   Animation<Offset>? _slideAnimation;
   AnimationController? _opacityController;

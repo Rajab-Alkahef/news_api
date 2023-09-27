@@ -34,7 +34,11 @@ class NewsTile extends StatelessWidget {
                     placeholder: (context, url) => const SizedBox(
                       height: 50,
                       width: 50,
-                      child: Center(child: CircularProgressIndicator()),
+                      child: Center(
+                          child: CircularProgressIndicator(
+                        strokeWidth: 4,
+                        color: Colors.black,
+                      )),
                     ),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
@@ -71,7 +75,7 @@ class NewsTile extends StatelessWidget {
             height: 8,
           ),
           Text(
-            news.subtitle ?? '',
+            news.subtitle ?? 'There is no subtitle for this news',
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
