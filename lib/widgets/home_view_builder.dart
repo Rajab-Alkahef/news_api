@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_ui_setup/widgets/categories_list_view.dart';
 import 'package:news_app_ui_setup/widgets/news_list_view_builder.dart';
-import 'package:news_app_ui_setup/widgets/search_bar.dart';
+import 'package:news_app_ui_setup/widgets/animated_search_bar.dart';
 import 'package:news_app_ui_setup/widgets/shimmer_loading.dart';
 
 class HomeViewBuilder extends StatelessWidget {
@@ -39,7 +39,7 @@ class HomeViewBuilder extends StatelessWidget {
                 left: 0,
                 right: 0,
                 top: 15,
-                child: CustomSearchBar(
+                child: AnimatedSearchBar(
                   searching: isSearching,
                 ))
             : const SizedBox(

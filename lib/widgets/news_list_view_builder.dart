@@ -7,9 +7,11 @@ import 'package:news_app_ui_setup/widgets/shimmer_loading.dart';
 import '../services/news_services.dart';
 
 class NewsListViewBuilder extends StatefulWidget {
-  const NewsListViewBuilder({super.key, this.category, this.searchValue});
+  const NewsListViewBuilder(
+      {super.key, this.category, this.searchValue, this.filterValue});
   final String? category;
   final String? searchValue;
+  final String? filterValue;
   @override
   State<NewsListViewBuilder> createState() => _NewsListViewBuilderState();
 }
@@ -22,7 +24,8 @@ class _NewsListViewBuilderState extends State<NewsListViewBuilder> {
     if (widget.category != null) {
       future = NewsService(Dio()).getnews(categoryName: widget.category);
     } else {
-      future = NewsService(Dio()).getnews(searchValue: widget.searchValue);
+      future = NewsService(Dio()).getnews(
+          searchValue: widget.searchValue, filterValue: widget.filterValue);
     }
 
     setState(() {});

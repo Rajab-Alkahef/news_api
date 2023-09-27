@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_ui_setup/views/category_view.dart';
 import 'package:news_app_ui_setup/widgets/news_list_view_builder.dart';
-import 'package:news_app_ui_setup/widgets/search_bar.dart';
+import 'package:news_app_ui_setup/widgets/animated_search_bar.dart';
 import 'package:news_app_ui_setup/widgets/shimmer_loading.dart';
 
 class CategoryViewBuilder extends StatelessWidget {
@@ -18,25 +18,27 @@ class CategoryViewBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        isSearching == true
-            ? SliverToBoxAdapter(
-                child: CustomSearchBar(searching: isSearching),
-              )
-            : const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 1,
+    return Stack(children: [
+      CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          isRefreshing == true
+              ? const SliverFillRemaining(
+                  hasScrollBody: false, child: ShimmerLoading())
+              : NewsListViewBuilder(
+                  category: category.category,
                 ),
-              ),
-        isRefreshing == true
-            ? const SliverFillRemaining(
-                hasScrollBody: false, child: ShimmerLoading())
-            : NewsListViewBuilder(
-                category: category.category,
-              ),
-      ],
-    );
+        ],
+      ),
+      isSearching == true
+          ? Positioned(
+              left: 0,
+              right: 0,
+              top: 15,
+              child: AnimatedSearchBar(searching: isSearching))
+          : const SizedBox(
+              height: 1,
+            ),
+    ]);
   }
 }

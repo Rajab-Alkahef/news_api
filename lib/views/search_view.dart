@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:news_app_ui_setup/widgets/news_list_view_builder.dart';
 
 class SearchResultView extends StatelessWidget {
-  const SearchResultView({super.key, this.searchValue});
+  const SearchResultView(
+      {super.key, this.searchValue, required this.filterValue});
   final String? searchValue;
-
+  final String filterValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +29,7 @@ class SearchResultView extends StatelessWidget {
         padding: const EdgeInsets.only(left: 16, top: 16),
         child: CustomScrollView(slivers: [
           NewsListViewBuilder(
+            filterValue: filterValue,
             searchValue: searchValue,
           ),
         ]),
