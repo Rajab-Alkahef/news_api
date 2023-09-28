@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_ui_setup/views/home_view.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Future.delayed(const Duration(seconds: 2));
   runApp(const NewsApp());
 }
 
